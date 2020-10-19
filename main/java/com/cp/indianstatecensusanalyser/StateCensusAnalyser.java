@@ -1,11 +1,14 @@
 package com.cp.indianstatecensusanalyser;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
+import com.cp.indianstatecensusanalyser.StateCensusAnalyserException.ExceptionType;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
@@ -15,19 +18,28 @@ public class StateCensusAnalyser {
 	@SuppressWarnings("unchecked")
 	public int readData(String DATA_FILE) throws StateCensusAnalyserException {
 		int noOfEntries = 0;
-		try {
-			Reader readFile = Files.newBufferedReader(Paths.get(CSV_CENSUS_FILE));
-			CsvToBean<IndianStateCensus> user = new CsvToBeanBuilder(readFile).withType(IndianStateCensus.class)
-												.withIgnoreLeadingWhiteSpace(true).build();
-			Iterator<IndianStateCensus> userIterator = user.iterator();
+		try {			
+			Reader readFile = Files.newBufferedReader(Paths.get(DATA_FILE));
+			CsvToBeanBuilder<IndianStateCensus> user = new CsvToBeanBuilder<IndianStateCensus>(readFile).withType(IndianStateCensus.class);
+			CsvToBean user1 = user.withIgnoreLeadingWhiteSpace(true).build();
+			BufferedReader br = new BufferedReader(new FileReader(DATA_FILE));
+			String line = "";
+			while ((line = br.readLine()) != null) {
+				if (!line.contains(","))
+					throw new StateCensusAnalyserException(ExceptionType.INVALID_DELIMITER,
+							"Invalid delimiter in the file ! ");
+			}
+			br.close();
+			Iterator<IndianStateCensus> userIterator = user1.iterator();
 			while (userIterator.hasNext()) {
 				IndianStateCensus csvuser = userIterator.next();
 				System.out.println(csvuser);
 				noOfEntries++;
 			}
+			
 		} catch (IOException e) {
 			throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.INVALID_FILE_PATH,
-					"invalid file location !! ");
+					"Invalid File Location!! ");
 		}
 		return noOfEntries;
 				
