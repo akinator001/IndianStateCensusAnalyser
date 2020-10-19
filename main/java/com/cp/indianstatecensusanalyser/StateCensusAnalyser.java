@@ -24,10 +24,19 @@ public class StateCensusAnalyser {
 			CsvToBean user1 = user.withIgnoreLeadingWhiteSpace(true).build();
 			BufferedReader br = new BufferedReader(new FileReader(DATA_FILE));
 			String line = "";
+			int flag=0;
 			while ((line = br.readLine()) != null) {
 				if (!line.contains(","))
 					throw new StateCensusAnalyserException(ExceptionType.INVALID_DELIMITER,
 							"Invalid delimiter in the file ! ");
+				if (flag == 0) {
+					String[] headerArray = line.split(",");
+					if (!(headerArray[0].equals("State") && headerArray[1].equals("Population")
+							&& headerArray[2].equals("Area") && headerArray[3].equals("Density")))
+						throw new StateCensusAnalyserException(ExceptionType.INVALID_HEADER,
+								"Invalid headers in File!!");
+					flag++;
+				}
 			}
 			br.close();
 			Iterator<IndianStateCensus> userIterator = user1.iterator();

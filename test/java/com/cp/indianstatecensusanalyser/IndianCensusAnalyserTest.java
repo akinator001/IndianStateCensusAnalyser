@@ -8,6 +8,7 @@ import org.junit.Test;
 public class IndianCensusAnalyserTest {
 	private static final String CSV_FILE = "./Indian.csv";
 	private static final String CSV_CENSUS_FILE_INVALID_DELIMITER = "./IndianStateCensusInvalidDelimeter.csv";
+	private static final String CSV_CENSUS_FILE_INVALID_HEADER =  "./IndianStateCensusInvalidHeader.csv";
 	private static String CSV_CENSUS_FILE  = "./IndianStateCensusData.csv";
 
 	@Test
@@ -42,4 +43,15 @@ public class IndianCensusAnalyserTest {
 		}
 	}	
 	
+	@Test
+	public void givenInvalidHeader_ShouldThrowCustomException() {
+		StateCensusAnalyser obj = new StateCensusAnalyser();
+		try {
+			obj.readData(CSV_CENSUS_FILE_INVALID_HEADER);
+		} catch (StateCensusAnalyserException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_HEADER, e.type);
+		}
+	}	
 }

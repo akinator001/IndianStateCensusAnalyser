@@ -4,7 +4,8 @@ public class StateCensusAnalyserException extends Exception {
 
 	enum ExceptionType { 
 		INVALID_FILE_PATH,
-		INVALID_DELIMITER;
+		INVALID_DELIMITER, 
+		INVALID_HEADER;
 	}
 
 	ExceptionType type;
