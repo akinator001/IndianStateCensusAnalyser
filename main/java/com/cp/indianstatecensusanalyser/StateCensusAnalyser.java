@@ -26,7 +26,9 @@ public class StateCensusAnalyser {
 				noOfEntries++;
 			}
 		} catch (IOException e) {
-			throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.INVALID_FILE_PATH , "invalid file location !!");
+
+			throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.INVALID_FILE_PATH,
+					"invalid file location !! ");
 		}
 		return noOfEntries;
 				
