@@ -9,6 +9,7 @@ public class IndianCensusAnalyserTest {
 	private static final String CSV_FILE = "./Indian.csv";
 	private static final String CSV_CENSUS_FILE_INVALID_DELIMITER = "./IndianStateCensusInvalidDelimeter.csv";
 	private static final String CSV_CENSUS_FILE_INVALID_HEADER =  "./IndianStateCensusInvalidHeader.csv";
+	private static final String CSV_STATE_CODE_FILE = "./IndianStateCode.csv";;
 	private static String CSV_CENSUS_FILE  = "./IndianStateCensusData.csv";
 
 	@Test
@@ -53,5 +54,13 @@ public class IndianCensusAnalyserTest {
 			System.out.println(e.getMessage());
 			assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_HEADER, e.type);
 		}
+	}
+	
+	@Test
+	public void givenNumberOfEntriesInAStateCodeCSVFile_ShouldReturnExactlytheSameWhileReading()
+			throws StateCensusAnalyserException {
+		StateCensusAnalyser obj = new StateCensusAnalyser();
+		int entries = obj.readCodeData(CSV_STATE_CODE_FILE);
+		Assert.assertEquals(37, entries);
 	}	
 }
