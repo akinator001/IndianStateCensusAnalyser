@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class IndianCensusAnalyserTest {
 	private static final String CSV_FILE = "./Indian.csv";
+	private static final String CSV_CENSUS_FILE_INVALID_DELIMITER = "./IndianStateCensusInvalidDelimeter.csv";
 	private static String CSV_CENSUS_FILE  = "./IndianStateCensusData.csv";
 
 	@Test
@@ -26,6 +27,19 @@ public class IndianCensusAnalyserTest {
 			System.out.println(e.getMessage());
 			Assert.assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_FILE_PATH, e.type);
 		}
+		
 	}
+	
+	@Test
+	public void givenInvalidDelimiter_ShouldThrowCustomException() {
+		StateCensusAnalyser obj = new StateCensusAnalyser();
+		try {
+			obj.readData(CSV_CENSUS_FILE_INVALID_DELIMITER);
+		} catch (StateCensusAnalyserException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			Assert.assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_DELIMITER, e.type);
+		}
+	}	
 	
 }
