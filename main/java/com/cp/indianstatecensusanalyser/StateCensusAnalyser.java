@@ -62,21 +62,30 @@ public class StateCensusAnalyser {
 		int noOfEntries = 0;
 		try {
 			Reader readFile = Files.newBufferedReader(Paths.get(DATA_FILE));
-			CsvToBeanBuilder<IndianStateCensus> user = new CsvToBeanBuilder<IndianStateCensus>(readFile);
-			user.withType(IndianStateCensus.class);
+			CsvToBeanBuilder<CSVStates> user = new CsvToBeanBuilder<CSVStates>(readFile);
+			user.withType(CSVStates.class);
 			CsvToBean user1 = user.withIgnoreLeadingWhiteSpace(true).build();
 			BufferedReader br = new BufferedReader(new FileReader(DATA_FILE));
-			int count = 0;
+			int flag = 0;
 			String line = "";
 			while ((line = br.readLine()) != null) {
 				if (!line.contains(","))
 					throw new StateCensusAnalyserException(ExceptionType.INVALID_DELIMITER,
-							"Invalid Delimiter in the File!! \nInvalidDelimiterException thrown....");
+							"Invalid Delimiter in the File!!");
+				if (flag == 0) {
+					String[] headerArray = line.split(",");
+					if (!(headerArray[0].equals("State") && headerArray[1].equals("TIN")
+							&& headerArray[2].equals("StateCode")))
+						throw new StateCensusAnalyserException(ExceptionType.INVALID_HEADER,
+								"Invalid headers in File!! ");
+					flag++;
+
+				}
 			}
 			br.close();
-			Iterator<IndianStateCensus> userIterator = user1.iterator();
+			Iterator<CSVStates> userIterator = user1.iterator();
 			while (userIterator.hasNext()) {
-				IndianStateCensus csvuser = userIterator.next();
+				CSVStates csvuser = userIterator.next();
 				System.out.println(csvuser);
 				noOfEntries++;
 			}
