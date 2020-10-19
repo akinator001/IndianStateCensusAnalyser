@@ -11,7 +11,8 @@ public class IndianCensusAnalyserTest {
 	private static final String CSV_CENSUS_FILE_INVALID_HEADER =  "./IndianStateCensusInvalidHeader.csv";
 	private static final String CSV_STATE_CODE_FILE = "./IndianStateCode.csv";;
 	private static String CSV_CENSUS_FILE  = "./IndianStateCensusData.csv";
-
+	private static String CSV_STATE_CODE_FILE_INVALID_DELIMITER = "./IndianStateCodeInvalidDelimeter.csv";
+	
 	@Test
 	public void givenNumberOfEntriesInACSVFile_ShouldReturnExactlytheSameWhileReading() throws StateCensusAnalyserException {
 		StateCensusAnalyser obj = new StateCensusAnalyser();
@@ -74,5 +75,17 @@ public class IndianCensusAnalyserTest {
 			System.out.println(e.getMessage());
 			assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_FILE_PATH, e.type);
 		}
-	}		
+	}
+	
+	@Test
+	public void givenInvalidDelimiterInStateCodeCsvFile_ShouldThrowCustomException() {
+		StateCensusAnalyser obj = new StateCensusAnalyser();
+		try {
+			obj.readData(CSV_STATE_CODE_FILE_INVALID_DELIMITER);
+		} catch (StateCensusAnalyserException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_DELIMITER, e.type);
+		}
+	}	
 }
