@@ -63,4 +63,16 @@ public class IndianCensusAnalyserTest {
 		int entries = obj.readCodeData(CSV_STATE_CODE_FILE);
 		Assert.assertEquals(37, entries);
 	}	
+
+	@Test
+	public void givenWrongFileLocationOfStateCodeCVSFilethrowsCustomeException_ForInvalidFilePath() {
+		StateCensusAnalyser obj = new StateCensusAnalyser();
+		try {
+			obj.readCodeData(CSV_FILE);
+		} catch (StateCensusAnalyserException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			assertEquals(StateCensusAnalyserException.ExceptionType.INVALID_FILE_PATH, e.type);
+		}
+	}		
 }

@@ -58,7 +58,7 @@ public class StateCensusAnalyser {
 				
 	}	
 	
-	public int readCodeData(String DATA_FILE) {
+	public int readCodeData(String DATA_FILE) throws StateCensusAnalyserException{
 		int noOfEntries = 0;
 		try {
 			Reader readFile = Files.newBufferedReader(Paths.get(DATA_FILE));
@@ -71,7 +71,8 @@ public class StateCensusAnalyser {
 				noOfEntries++;
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.INVALID_FILE_PATH,
+					"Invalid File Location given!!");
 		}
 		return noOfEntries;
 	}
