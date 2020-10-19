@@ -31,6 +31,7 @@ public class StateCensusAnalyser {
 			}
 			br.close();
 			Iterator<IndianStateCensus> userIterator = user1.iterator();
+
 			while (userIterator.hasNext()) {
 				IndianStateCensus csvuser = userIterator.next();
 				System.out.println(csvuser);
@@ -38,6 +39,7 @@ public class StateCensusAnalyser {
 			}
 			
 		} catch (IOException e) {
+
 			throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.INVALID_FILE_PATH,
 					"Invalid File Location!! ");
 		}

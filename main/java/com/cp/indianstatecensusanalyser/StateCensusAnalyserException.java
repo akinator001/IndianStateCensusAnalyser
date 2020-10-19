@@ -8,9 +8,9 @@ public class StateCensusAnalyserException extends Exception {
 	}
 
 	ExceptionType type;
+  
 	public StateCensusAnalyserException(ExceptionType type, String message) {
 		super(message);
 		this.type = type;
 	}
-
 }
